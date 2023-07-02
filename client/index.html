@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <link rel="stylesheet" href="style.css">
+        <script type="module" src="client.js"></script>
+    </head>
+    <body>
+        <div class="two-col">
+
+            <div class="main-child sidebar">
+                <br><br>
+
+                <div class="s-item h1 center">Let us plan your meals for the next week!</div>
+                <span class="brmedium"></span>
+
+                <div class="s-item h2 center">Days</div>
+                <div class="s-item three-col">
+                    <button id="minusDays" class="smallbtn"><span>&#65293;</span></button>
+                    <div id="days" class="square">5</div>
+                    <button id="plusDays" class="smallbtn"><span>&#65291;</span></button>
+                </div>
+                <span class="brmedium"></span>
+                
+                <div class="s-item h2 center">Tags
+                    <div class="two-col">
+                        <div class="s-item">Cheap</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                          </label>
+                    </div>
+                    <div class="two-col">
+                        <div class="s-item">Easy</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="toggle-switch">
+                            <span class="slider"></span>
+                          </label>
+                    </div>
+                    <div class="two-col">
+                        <div class="s-item">Bulk</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="toggle-switch">
+                            <span class="slider"></span>
+                          </label>
+                    </div>
+
+                </div>
+                <span class="brmedium"></span>
+
+                <button id="generate" class="s-item green-button">
+                    Generate Meals
+                </button>
+
+            </div>
+
+            <div class="main-child">
+                <div id="datadisplay">
+                    <div id="tables">
+                        <input type="radio" name="selected" value="recipes" id="recipesTable">
+                        <label for="recipesTable">Recipes</label>
+                        <input type="radio" name="selected" value="ingredients" id="ingredientsTable">
+                        <label for="ingredientsTable">Ingredients</label>
+                        <input type="radio" name="selected" value="tags" id="tagsTable">
+                        <label for="tagsTable">Tags</label>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+    </body>
+</html>
