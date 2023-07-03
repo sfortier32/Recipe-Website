@@ -7,67 +7,69 @@
         <script type="module" src="client.js"></script>
     </head>
     <body>
-        <div class="two-col">
+        <div class="top-container">
+            <div class="side">
+                <br>
 
-            <div class="main-child sidebar">
-                <br><br>
+                <h2 class="side-item">Let us plan your meals for the next week!</h2>
+                <div class="bigbr"></div>
 
-                <div class="s-item h1 center">Let us plan your meals for the next week!</div>
-                <span class="brmedium"></span>
-
-                <div class="s-item h2 center">Days</div>
+                <h3 class="side-item">Days</h3>
                 <div class="s-item three-col">
                     <button id="minusDays" class="smallbtn"><span>&#65293;</span></button>
                     <div id="days" class="square">5</div>
                     <button id="plusDays" class="smallbtn"><span>&#65291;</span></button>
                 </div>
-                <span class="brmedium"></span>
                 
-                <div class="s-item h2 center">Tags
-                    <div class="two-col">
-                        <div class="s-item">Cheap</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox">
-                            <span class="slider"></span>
-                          </label>
-                    </div>
-                    <div class="two-col">
-                        <div class="s-item">Easy</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="toggle-switch">
-                            <span class="slider"></span>
-                          </label>
-                    </div>
-                    <div class="two-col">
-                        <div class="s-item">Bulk</div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="toggle-switch">
-                            <span class="slider"></span>
-                          </label>
-                    </div>
+                <h3 class="side-item">Tags</h3>
+                <div class="negbr"></div>
 
+                <div class="two-col">
+                    <h4>Cheap</h4>
+                    <label class="switch">
+                        <input type="checkbox" id="cheap-switch">
+                        <span class="slider"></span>
+                        </label>
                 </div>
-                <span class="brmedium"></span>
+                <div class="negbr"></div>
+                <div class="two-col">
+                    <h4>Quick</h4>
+                    <label class="switch">
+                        <input type="checkbox" id="quick-switch">
+                        <span class="slider"></span>
+                        </label>
+                </div>
+                <div class="negbr"></div>
+                <div class="two-col">
+                    <h4>Bulk</h4>
+                    <label class="switch">
+                        <input type="checkbox" id="bulk-switch">
+                        <span class="slider"></span>
+                        </label>
+                </div>
 
-                <button id="generate" class="s-item green-button">
-                    Generate Meals
-                </button>
+                <div class="bigbr"></div>
+                <button class="center" id="generate-button">Generate Meals!</button>
 
-            </div>
+            </div> <!--end side-->
 
-            <div class="main-child">
-                <div id="datadisplay">
-                    <div id="tables">
-                        <input type="radio" name="selected" value="recipes" id="recipesTable">
-                        <label for="recipesTable">Recipes</label>
-                        <input type="radio" name="selected" value="ingredients" id="ingredientsTable">
-                        <label for="ingredientsTable">Ingredients</label>
-                        <input type="radio" name="selected" value="tags" id="tagsTable">
-                        <label for="tagsTable">Tags</label>
+
+            <div class="main">
+                <div class="main-child">
+                    <div id="datadisplay">
+                        <div id="tables">
+                            <input type="radio" name="selected" value="recipes" id="recipesTable">
+                            <label for="recipesTable">Recipes</label>
+                            <input type="radio" name="selected" value="ingredients" id="ingredientsTable">
+                            <label for="ingredientsTable">Ingredients</label>
+                            <input type="radio" name="selected" value="tags" id="tagsTable">
+                            <label for="tagsTable">Tags</label>
+                        </div>
                     </div>
                 </div>
             </div>
-
-          </div>
+        </div> <!--end top-container-->
+        <div class="bottom-container"></div>
+        
     </body>
 </html>
