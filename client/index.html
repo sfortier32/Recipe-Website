@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
         <link rel="stylesheet" href="style.css">
         <script type="module" src="client.js"></script>
     </head>
@@ -29,7 +27,7 @@
                     <label class="switch">
                         <input type="checkbox" id="cheap-switch">
                         <span class="slider"></span>
-                        </label>
+                    </label>
                 </div>
                 <div class="negbr"></div>
                 <div class="two-col">
@@ -37,7 +35,7 @@
                     <label class="switch">
                         <input type="checkbox" id="quick-switch">
                         <span class="slider"></span>
-                        </label>
+                    </label>
                 </div>
                 <div class="negbr"></div>
                 <div class="two-col">
@@ -45,7 +43,7 @@
                     <label class="switch">
                         <input type="checkbox" id="bulk-switch">
                         <span class="slider"></span>
-                        </label>
+                    </label>
                 </div>
 
                 <div class="bigbr"></div>
@@ -55,18 +53,12 @@
 
 
             <div class="main">
-                <div class="main-child">
-                    <div id="datadisplay">
-                        <div id="tables">
-                            <input type="radio" name="selected" value="recipes" id="recipesTable">
-                            <label for="recipesTable">Recipes</label>
-                            <input type="radio" name="selected" value="ingredients" id="ingredientsTable">
-                            <label for="ingredientsTable">Ingredients</label>
-                            <input type="radio" name="selected" value="tags" id="tagsTable">
-                            <label for="tagsTable">Tags</label>
-                        </div>
-                    </div>
+                <div id="table-options" class="headers"></div>
+                <hr>
+                <div class="scrollable-table">
+                    <table id="table"></table>
                 </div>
+
             </div>
         </div> <!--end top-container-->
         <div class="bottom-container"></div>

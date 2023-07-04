@@ -15,7 +15,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.post('/recipes/ingredients/create', async (req, res) => {
+    app.post('/ingredients/create', async (req, res) => {
         try {
             const { rname, name, desc, amount, unit } = req.query;
             const recipe = await db.createIngredient(rname, name, desc, amount, unit);
@@ -24,7 +24,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.post('/recipes/tags/create', async (req, res) => {
+    app.post('/tags/create', async (req, res) => {
         try {
             const { rname, tag } = req.query;
             const tags = await db.createTag(rname, tag);
@@ -44,7 +44,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.get('/recipes/ingredients/read', (req, res) => {
+    app.get('/ingredients/read', (req, res) => {
         try {
             const { rname, name } = req.query;
             const ingredients = db.readIngredients(rname, name);
@@ -53,7 +53,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.get('/recipes/tags/read', (req, res) => {
+    app.get('/tags/read', (req, res) => {
         try {
             const { rname, tag } = req.query;
             const tags = db.readTags(rname, tag);
@@ -73,7 +73,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.put('/recipes/ingredients/update', (req, res) => {
+    app.put('/ingredients/update', (req, res) => {
         try {
             const { rname, newRName, name, newName, desc, amount, unit } = req.query;
             const ingredient = db.updateRecipe(rname, newRName, name, newName, desc, amount, unit);
@@ -93,7 +93,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.delete('/recipes/ingredients/delete', (req, res) => {
+    app.delete('/ingredients/delete', (req, res) => {
         try {
             const { rname, name } = req.query;
             const ingredient = db.deleteRecipe(rname, name);
@@ -102,7 +102,7 @@ const RecipesRoutes = (app, db) => {
             res.status(500).send(err);
         }
     });
-    app.delete('/recipes/tags/delete', (req, res) => {
+    app.delete('/tags/delete', (req, res) => {
         try {
             const { rname, tag } = req.query;
             const tags = db.deleteRecipe(rname, tag);
@@ -112,11 +112,27 @@ const RecipesRoutes = (app, db) => {
         }
     });
 
-    // other
+    // read all
     app.get('/recipes/all', async (req, res) => {
         try {
             const recipes = await db.readAllRecipes();
             res.send(JSON.stringify(recipes));
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
+    app.get('/ingredients/all', async (req, res) => {
+        try {
+            const ingredients = await db.readAllIngredients();
+            res.send(JSON.stringify(ingredients));
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
+    app.get('/tags/all', async (req, res) => {
+        try {
+            const tags = await db.readAllTags();
+            res.send(JSON.stringify(tags));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -130,6 +146,7 @@ const RecipesRoutes = (app, db) => {
 
 const start = async () => {
     const db = await RecipesDatabase(process.env.DATABASE_URL).connect();
+    db.init();
     const app = RecipesRoutes(express(), db);
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
