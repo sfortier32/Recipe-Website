@@ -39,7 +39,7 @@ async function displayHeaders(checked) {
 
         const newInput = document.createElement('input');
         newInput.id = tableNames[i].concat('-table');
-        newInput.classList.add('radio-custom');
+        newInput.classList.add('radio-headers');
         newInput.name = 'radio-group';
         newInput.type = 'radio';
 
@@ -103,36 +103,38 @@ async function displayTable(tableName) {
 
 
 // database editor
-const editorTables = document.getElementById("editor-tables");
-const editorButton = document.getElementById('editor-btn');
-const closeButton = document.getElementById('close-btn');
-const editor = document.getElementById("editor");
+const editorHeaders = document.getElementById("editor-headers");
+const editorActions = document.getElementById("editor-actions");
+const radioHeadersGroup = document.getElementsByName("radio-editor-headers");
+const radioCrudGroup = document.getElementsByName("radio-editor-crud");
 
-
-editorButton.addEventListener('click', (e) => {
+document.getElementById('editor-btn').addEventListener('click', (e) => {
     e.preventDefault();
-    editor.style.display = "block";
+    document.getElementById("editor").style.display = "block";
     displayEditorHeaders("Recipes");
+    displayCrudButtons("Create");
+    verifyEditorSelection();
 });
 
-closeButton.addEventListener('click', (e) => {
+document.getElementById('close-btn').addEventListener('click', (e) => {
     e.preventDefault();
-    editor.style.display = "none";
+    document.getElementById("editor").style.display = "none";
 });
 
-function displayEditorHeaders(checked) {
-    editorTables.innerHTML = '';
-    for (let i = 0; i < tableNames.length; ++i) {
+
+function displayEditorHeaders(tableChecked) {
+    editorHeaders.innerHTML = '';
+    for (let i = 0; i < 3; ++i) {
 
         const newLabel = document.createElement('label');
 
         const newInput = document.createElement('input');
         newInput.id = tableNames[i].concat('-editor-table');
-        newInput.classList.add('radio-custom');
-        newInput.name = 'radio-editor-group';
+        newInput.classList.add('radio-editor-headers');
+        newInput.name = 'radio-editor-headers';
         newInput.type = 'radio';
 
-        if (tableNames[i] === checked) {
+        if (tableNames[i] === tableChecked) {
             newInput.setAttribute("checked", "checked");
         }
         
@@ -142,15 +144,98 @@ function displayEditorHeaders(checked) {
         newInput.addEventListener("click", (e) => {
             e.preventDefault();
             displayEditorHeaders(tableNames[i]);
+            verifyEditorSelection();
         });
 
         newLabel.appendChild(newInput);
 
-        editorTables.appendChild(newLabel);
+        editorHeaders.appendChild(newLabel);
     }
 
 }
 
+function displayCrudButtons(crudChecked) {
+    editorActions.innerHTML = '';
+    const actions = ["Create", "Update", "Delete"];
+    for (let i = 0; i < 3; ++i) {
+        const newLabel = document.createElement('label');
+
+        const newInput = document.createElement('input');
+        newInput.id = actions[i];
+        newInput.classList.add('radio-green');
+        newInput.name = 'radio-editor-crud';
+        newInput.type = 'radio';
+
+        if (actions[i] === crudChecked) {
+            newInput.setAttribute("checked", "checked");
+        }
+        
+        newLabel.setAttribute("for", newInput.id);
+        newLabel.innerHTML = actions[i];
+        newLabel.classList.add("editor-action-type");
+
+        newInput.addEventListener("click", (e) => {
+            e.preventDefault();
+            displayCrudButtons(actions[i]);
+            verifyEditorSelection();
+        });
+
+        newLabel.appendChild(newInput);
+
+        editorActions.appendChild(newLabel);
+    }   
+}
+
+const editorForm = document.getElementById("editor-form");
+function verifyEditorSelection() {
+    editorForm.innerText = '';
+
+    let headerChecked = '';
+    let crudChecked = '';
+    for (let i = 0; i < radioHeadersGroup.length; ++i) {
+        if (radioHeadersGroup[i].checked) {
+            headerChecked = radioHeadersGroup[i].id.split('-')[0];
+            break;
+        }
+    }
+    for (let i = 0; i < radioCrudGroup.length; ++i) {
+        if (radioCrudGroup[i].checked) {
+            crudChecked = radioCrudGroup[i].id.split('-')[0];
+            break;
+        }
+    }
+    displayForm(headerChecked, crudChecked);
+
+}
+
+function displayForm(tableName, crudOption) {
+    editorForm.innerHTML = '';
+    if (tableName === "Recipes") {
+        if (crudOption === "Create") {
+            editorForm.innerText = "Recipes Create";
+        } else if (crudOption === "Update") {
+            editorForm.innerText = "Recipes Update";
+        } else if (crudOption === "Delete") {
+            editorForm.innerText = "Recipes Delete";
+        }
+    } else if (tableName === "Ingredients") {
+        if (crudOption === "Create") {
+            editorForm.innerText = "Ingredients Create";
+        } else if (crudOption === "Update") {
+            editorForm.innerText = "Ingredients Update";
+        } else if (crudOption === "Delete") {
+            editorForm.innerText = "Ingredients Delete";
+        }
+    } else if (tableName === "Tags") {
+        if (crudOption === "Create") {
+            editorForm.innerText = "Tags Create";
+        } else if (crudOption === "Update") {
+            editorForm.innerText = "Tags Update";
+        } else if (crudOption === "Delete") {
+            editorForm.innerText = "Tags Delete";
+        }
+    };
+}
 
 // other
 
