@@ -16,20 +16,6 @@ export const RecipesDatabase = (dburl) => {
 const RecipeQuery = (pool, client) => {
     return {
         init: async () => {
-            const queryEnums = `
-                DO $$ BEGIN
-                CREATE TYPE unit_vals AS ENUM ('tsp', 'tbsp', 'oz',
-                        'g', 'lb', 'cup', 'gallon', 'pinch', 'jar', 'slice', 'clove');
-                EXCEPTION WHEN duplicate_object THEN null;
-                END $$;
-
-                DO $$ BEGIN
-                CREATE TYPE tag_vals AS ENUM ('cheap', 'quick', 'bulk');
-                EXCEPTION WHEN duplicate_object THEN null;
-                END $$;
-            `;
-            const resEnums = await client.query(queryEnums);
-
             const queryTables = `
                 CREATE TABLE IF NOT EXISTS recipes (
                     rid SERIAL PRIMARY KEY,
@@ -85,6 +71,14 @@ const RecipeQuery = (pool, client) => {
                     ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Salt', DEFAULT, DEFAULT, DEFAULT),
                     ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Black Pepper', 'Plenty', DEFAULT, DEFAULT),
                     ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Peas', DEFAULT, 0.5, 'cup')
+                ON CONFLICT DO NOTHING;
+
+
+                INSERT INTO tags(rid, tag) 
+                VALUES ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Bulk'),
+                    ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Quick'),
+                    ((SELECT rid FROM recipes WHERE name='Carbonara'), 'Cheap'),
+                    ((SELECT rid FROM recipes WHERE name='Sun Dried Tomato and Pesto Pasta'), 'Bulk')
                 ON CONFLICT DO NOTHING;
                 `;
             const resInsert = await client.query(queryInsert);

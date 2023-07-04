@@ -8,6 +8,7 @@
     --darkgray: #424242;
     --background-gray: #F3F3F3;
     --background-green: #F2F9F1;
+    --red: rgb(255, 59, 29);
 }
 .center {
     text-align: center;
@@ -52,6 +53,9 @@ h4 {
 }
 .table-font {
     padding: 12px;
+}
+#smallText {
+    font-size: 13px;
 }
 
 /* containers */
@@ -215,14 +219,13 @@ button:active {
 
 /* popups */
 .popup-outer {
-    position: fixed;
-    top: 25%;
+    position: absolute;
     left: 50%;
-    width: 400px;
-    margin: 0;
-    margin-right: -50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background-color: var(--background-gray);
+    width: 400px;
+    background-color: rgb(245, 245, 245);
     border-radius: 15px;
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
 }
@@ -252,16 +255,18 @@ label:has(.radio-headers:checked), label:has(.radio-editor-headers:checked) {
     color: var(--green);
 }
 label:has(.radio-headers) {
+    color: var(--darkgray);
     font-weight: 600;
     padding: 12px;
 }
 label:has(.radio-editor-headers) {
+    color: var(--darkgray);
     font-weight: 600;
     padding-top: 18px;
     padding-bottom: 18px;
     padding-right: 18px;
 }
-label:has(.radio-green) {
+label:has(.radio-crud) {
     font-size: 15px;
     font-weight: 600;
     padding-left: 13px;
@@ -273,7 +278,7 @@ label:has(.radio-green) {
     border-radius: 7px;
     box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.2);
 }
-label:has(.radio-green:checked) {
+label:has(.radio-crud:checked) {
     color: var(--green);
     background-color: var(--lightgreen);
 
@@ -298,4 +303,53 @@ td {
 }
 tr:nth-child(even) {
     background-color: var(--background-green);
+}
+
+
+/* forms */
+.inline-form {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.inline-form span input {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
+}
+.inline-form span:has(input), textarea {
+    display: block;
+    overflow: hidden;
+    padding-right: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
+}
+.inline-form label {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--darkgray);
+    padding-top: 5px;
+}
+
+span input:focus, textarea {
+    outline: none;
+}
+label.label-right {
+    float: right;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+label.label-left {
+    float: left;
+    padding-right: 10px;
+}
+
+textarea {
+    width: 248px;
+    resize: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 7px;
 }

@@ -1,5 +1,5 @@
 // create
-export async function createRecipe(name, inst, prep, cook) {
+export async function createRecipes(name, inst, prep, cook) {
     console.log(name);
     const response = await fetch(
         `/recipes/create?name=${name}&inst=${inst}&prep=${prep}&cook=${cook}`,
@@ -8,7 +8,7 @@ export async function createRecipe(name, inst, prep, cook) {
     const data = await response.json();
     return data;
 }
-export async function createIngredient(rname, name, desc, amount, unit) {
+export async function createIngredients(rname, name, desc, amount, unit) {
     const response = await fetch(
         `/ingredients/create?rname=${rname}&name=${name}&desc=${desc}&amount=${amount}&unit=${unit}`,
         { method: 'POST' }
@@ -16,7 +16,7 @@ export async function createIngredient(rname, name, desc, amount, unit) {
     const data = await response.json();
     return data;
 }
-export async function createTag(rname, name) {
+export async function createTags(rname, name) {
     const response = await fetch(
         `/tags/create?rname=${rname}&name=${name}`,
         { method: 'POST' }
@@ -26,7 +26,7 @@ export async function createTag(rname, name) {
 }
 
 // read
-export async function readRecipe(name) {
+export async function readRecipes(name) {
     try {
         const response = await fetch(
             `/recipes/read?name=${name}`,
@@ -38,7 +38,7 @@ export async function readRecipe(name) {
         console.log(err);
     }
 }
-export async function readIngredient(rname, name) {
+export async function readIngredients(rname, name) {
     try {
         const response = await fetch(
             `/ingredients/read?rname=${rname}&name=${name}`,
@@ -50,7 +50,7 @@ export async function readIngredient(rname, name) {
         console.log(err);
     }
 }
-export async function readTag(rname, tag) {
+export async function readTags(rname, tag) {
     try {
         const response = await fetch(
             `/tags/read?rname=${rname}&tag=${tag}`,
@@ -64,7 +64,7 @@ export async function readTag(rname, tag) {
 }
 
 // update
-export async function updateRecipe(name, newName, inst, prep, cook) {
+export async function updateRecipes(name, newName, inst, prep, cook) {
     try {
         const response = await fetch(
             `/recipes/create?name=${name}&newName=${newName}&inst=${inst}&prep=${prep}&cook=${cook}`,
@@ -76,7 +76,7 @@ export async function updateRecipe(name, newName, inst, prep, cook) {
         console.log(err);
     }
 }
-export async function updateIngredient(rname, newRName, name, newName, desc, amount, unit) {
+export async function updateIngredients(rname, newRName, name, newName, desc, amount, unit) {
     try {
         const response = await fetch(
             `/ingredients/create?rname=${rname}&newRName=${newRName}&name=${name}&newName=${newName}&desc=${desc}&amount=${amount}&unit=${unit}`,
@@ -90,7 +90,7 @@ export async function updateIngredient(rname, newRName, name, newName, desc, amo
 }
 
 // delete
-export async function deleteRecipe(name) {
+export async function deleteRecipes(name) {
     try {
         const response = await fetch(
             `/recipes/delete?name=${name}`,
@@ -102,7 +102,7 @@ export async function deleteRecipe(name) {
         console.log(err);
     }
 }
-export async function deleteIngredient(rname, name) {
+export async function deleteIngredients(rname, name) {
     try {
         const response = await fetch(
             `/ingredients/delete?rname=${rname}&name=${name}`,
@@ -114,7 +114,7 @@ export async function deleteIngredient(rname, name) {
         console.log(err);
     }
 }
-export async function deleteTag(rname, tag) {
+export async function deleteTags(rname, tag) {
     try {
         const response = await fetch(
             `/tags/delete?rname=${rname}&tag=${tag}`,
