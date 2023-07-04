@@ -2,21 +2,20 @@ export { schema };
 
 const schema = {
     recipes: [
-        "rid",
         "name",
         "instructions",
         "preptime",
         "cooktime"
     ],
     ingredients: [
-        "rid",
+        "recipe",
         "name", 
         "description",
         "amount",
         "unit"
     ],
     tags: [
-        "rid",
+        "recipe",
         "tag"
     ]
 }

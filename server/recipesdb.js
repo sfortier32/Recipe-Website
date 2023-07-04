@@ -215,21 +215,22 @@ const RecipeQuery = (pool, client) => {
         // read all
         readAllRecipes: async () => {
             const queryText = `
-                SELECT * FROM recipes;
+                SELECT name, instructions, preptime, cooktime FROM recipes;
             `;
             const res = await client.query(queryText);
             return res.rows;
         },
         readAllIngredients: async () => {
             const queryText = `
-                SELECT * FROM ingredients;
+                SELECT r.name as recipe, i.name, i.description, i.amount, i.unit
+                FROM recipes r, ingredients i WHERE r.rid = i.rid;
             `;
             const res = await client.query(queryText);
             return res.rows;
         },
         readAllTags: async () => {
             const queryText = `
-                SELECT * FROM tags;
+                SELECT r.name, t.tag FROM recipes r, tags t WHERE r.rid = t.rid;
             `;
             const res = await client.query(queryText);
             return res.rows;

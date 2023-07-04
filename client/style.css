@@ -161,7 +161,13 @@ button:active {
     box-shadow: none;
     font-size: 16px;
     font-weight: 600;
-    color: var(--darkgray);
+    padding-left: 13px;
+    padding-right: 13px;
+    padding-top: 6px;
+    padding-bottom: 7px;
+    color: var(--green);
+    background-color: var(--lightgreen);
+    border-radius: 7px;
 }
 
 
@@ -242,8 +248,7 @@ button:active {
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 
@@ -265,27 +270,6 @@ label:has(.radio-editor-headers) {
     padding-top: 18px;
     padding-bottom: 18px;
     padding-right: 18px;
-}
-label:has(.radio-crud) {
-    font-size: 15px;
-    font-weight: 600;
-    padding-left: 13px;
-    padding-right: 13px;
-    padding-top: 6px;
-    padding-bottom: 7px;
-    color: var(--gray);
-    background-color: var(--lightgray);
-    border-radius: 7px;
-    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.2);
-}
-label:has(.radio-crud:checked) {
-    color: var(--green);
-    background-color: var(--lightgreen);
-
-}
-.editor-action-type:active {
-    transform: scale(0.98);
-    box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 

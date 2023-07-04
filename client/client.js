@@ -65,7 +65,7 @@ function displayCrudButtons(crudChecked) {
 
         const newInput = document.createElement("input");
         newInput.id = actions[i];
-        newInput.classList.add("radio-crud");
+        newInput.classList.add("radio-headers");
         newInput.name = "radio-editor-crud";
         newInput.type = "radio";
 
@@ -156,6 +156,9 @@ function displayForm(tableName, crudOption) {
         const label = document.createElement("label"); // name label
         label.setAttribute("for", ele);
         label.innerText = ele;
+        if (ele.endsWith('Name') && !ele.startsWith('New') || ele === 'Tag') {
+            label.innerText = label.innerText.concat('*');
+        }
         label.classList.add("label-left");
 
         let newInput = document.createElement("input"); // input type
@@ -172,10 +175,6 @@ function displayForm(tableName, crudOption) {
         }
         newInput.id = ele; // input id
         newInput.name = tableName.toLowerCase().concat(crudOption); // input name
-        if (ele.split(' ')[0] === "New") {
-            newInput.placeholder = "Enter old one if no change"
-        }
-
         const inputSpan = document.createElement("span"); // <span><input...
         inputSpan.appendChild(newInput);
 
@@ -193,7 +192,11 @@ function displayForm(tableName, crudOption) {
 
     const mandatory = document.createElement('p');
     mandatory.id = 'smallText';
-    mandatory.innerHTML = "*all fields required";
+    if (crudOption === "Update") {
+        mandatory.innerHTML = "*required fields, leave others blank if no change";
+    } else {
+        mandatory.innerHTML = "*required fields";
+    }
     editorForm.appendChild(mandatory);
 }
 
@@ -217,8 +220,23 @@ function responseFail() {
 
 
 async function submitForm() {
+    // TODO: Throw error if null mandatory fields
     const action = headerChecked.toLowerCase().concat(crudChecked);
     if (action === "recipesCreate") {
+        const name = document.getElementById("Name").value;
+        const inst = document.getElementById("Instructions").value;
+        const prep = document.getElementById("Prep Time").value;
+        const cook = document.getElementById("Cook Time").value;
+        response.hidden = false;
+        try {
+            [name, inst, prep, cook].map(x => replaceBlank(x));
+            await crud.createRecipes(name, inst, prep, cook);
+            responseSuccess();
+            editorForm.reset();
+        } catch (err) {
+            responseFail();
+        }
+        setTimeout(function() { response.hidden = true;}, 3000);
 
     } else if (action === "recipesUpdate") {
 
@@ -233,12 +251,23 @@ async function submitForm() {
             responseFail();
         }
         setTimeout(function() { response.hidden = true;}, 3000);
-
     } else if (action === "ingredientsCreate") {
 
     } else if (action === "ingredientsUpdate") {
 
     } else if (action === "ingredientsDelete") {
+        const rname = document.getElementById("Recipe Name").value;
+        const name = document.getElementById("Ingredient Name").value;
+        response.hidden = false;
+        try {
+            
+            await crud.deleteIngredients(rname, name);
+            responseSuccess();
+            editorForm.reset();
+        } catch (err) {
+            responseFail();
+        }
+        setTimeout(function() { response.hidden = true;}, 3000);
 
     } else if (action === "tagsCreate") {
 
@@ -247,6 +276,7 @@ async function submitForm() {
     } else if (action === "tagsDelete") {
 
     }
+    dt.displayTable();
 }
 
 async function init() {
@@ -254,4 +284,7 @@ async function init() {
     await dt.displayTable("Recipes");
 }
 
+function replaceBlank(val) {
+    return val === '' ? null : val;
+}
 init();
