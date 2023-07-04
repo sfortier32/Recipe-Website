@@ -26,7 +26,15 @@ hr {
     margin: 0;
     padding: 0;
 }
-
+.inline {
+    display: inline-block;
+}
+.right {
+    position: absolute;
+    right: 0;
+    margin-right: 30px;
+    margin-top: 10px;
+}
 
 /* fonts */
 h2 {
@@ -80,6 +88,19 @@ h4 {
     grid-template-columns: 40px 60px 40px;
     column-gap: 25px;
 }
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 25px;
+    color: var(--darkgray); 
+    background: white;
+    height: 60px;
+    width: 60px;
+    border-radius: 15px;
+    box-shadow: 2px 3px 15px rgba(0, 0, 0, 0.15);
+}
 
 
 /* main */
@@ -87,6 +108,7 @@ h4 {
     padding-top: 20px;
     padding-bottom: 15px;
     padding-left: 5px;
+    padding-right: 5px;
 }
 
 
@@ -103,20 +125,6 @@ h4 {
     height: 45px;
     width: 180px;
 }
-
-.square {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    font-size: 25px;
-    color: var(--darkgray); 
-    background: white;
-    height: 60px;
-    width: 60px;
-    border-radius: 15px;
-    box-shadow: 2px 3px 15px rgba(0, 0, 0, 0.15);
-}
 .smallbtn {
     height: 33px;
     font-size: 20px;
@@ -125,6 +133,17 @@ h4 {
     border: none;
     border-radius: 10px;
     box-shadow: 2px 3px 15px rgba(0, 0, 0, 0.15);
+}
+.circle-btn {
+    border: none;
+    border-radius: 50%;
+    box-shadow: 2px 3px 15px rgba(0, 0, 0, 0.15);
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    color: var(--green);
+    background: white;
+    text-align: center;
 }
 button:active {
     transform: scale(0.98);
@@ -184,6 +203,29 @@ button:active {
 }
 
 
+/* popups */
+.popup-outer {
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    width: 400px;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--lightgray);
+    border-radius: 15px;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.popup-inner {
+    display: none;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+
 /* radio buttons */
 .radio-custom {
     display: none;
@@ -201,23 +243,9 @@ label:has(.radio-custom) {
 table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-.scrollable-table {
     overflow: auto;
     height: 550px;
 }
-
-th {
-    position: sticky;
-    top: 0;
-}
-
-th, td {
-    /* border: 1px solid #dddddd; */
-    border-collapse: collapse;
-}
-
 tr:nth-child(even) {
     background-color: var(--background-green);
 }

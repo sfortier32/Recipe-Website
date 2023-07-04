@@ -53,7 +53,9 @@
 
 
             <div class="main">
-                <div id="table-options" class="headers"></div>
+                <div id="table-options" class="inline headers"></div>
+                <button id="info" class="inline right circle-btn" style="margin-right: 75px;">?</button>
+                <button id="editor-btn" class="inline right circle-btn">&#8942;</button>
                 <hr>
                 <div class="scrollable-table">
                     <table id="table"></table>
@@ -61,6 +63,15 @@
 
             </div>
         </div> <!--end top-container-->
+
+        <div class="popup-outer">
+            <div class="popup-inner" id="editor">
+                <h2 class="inline">Database Editor</h2>
+                <button id="close-btn" class="circle-btn right">&#10005;</button>
+                <div id="editor-tables"></div>
+            </div>
+        </div>
+
         <div class="bottom-container"></div>
         
     </body>
