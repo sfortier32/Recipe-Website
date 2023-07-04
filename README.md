@@ -1,2 +1,4 @@
 # Recipes-Website
-UMass CS 326 Final Project
+UMass Amherst CCOMPSCI 326 Final Project
+
+Contibutors: Sophia Fortier
