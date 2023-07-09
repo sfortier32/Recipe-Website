@@ -1,5 +1,6 @@
 import * as crud from "./crud.js";
 import * as dt from "./datatable.js";
+import * as gen from "./generate.js";
 
 // database editor
 const tableNames = ["Recipes", "Ingredients", "Tags"];
@@ -10,6 +11,22 @@ const radioCrudGroup = document.getElementsByName("radio-editor-crud");
 
 let headerChecked = "Recipes";
 let crudChecked = "Create"; 
+
+const response = document.getElementById("response");
+function responseSuccess() {
+    response.hidden = false;
+    response.innerHTML = "Success"
+    response.style = "font-size: 16px; font-weight: 600; color: var(--green); margin-top: 10px;"
+    setTimeout(function() { response.hidden = true;}, 3000);
+}
+function responseFail(err) {
+    console.log(err);
+    response.hidden = false;
+    response.innerHTML = `${err}`;
+    response.style = "font-size: 13px; font-weight: 600; color: var(--red); margin-top: 10px;"
+    setTimeout(function() { response.hidden = true;}, 10000);
+}
+
 
 document.getElementById("editor-btn").addEventListener("click", (e) => { // open editor
     e.preventDefault();
@@ -84,10 +101,10 @@ function displayCrudButtons(crudChecked) {
         });
 
         newLabel.appendChild(newInput);
-
         editorActions.appendChild(newLabel);
     }   
 }
+
 
 const editorForm = document.getElementById("editor-form");
 function verifyEditorSelection() {
@@ -106,6 +123,8 @@ function verifyEditorSelection() {
     }
     displayForm(headerChecked, crudChecked);
 }
+
+
 function getElements(tableName, crudOption) {
     let elements = [];
     switch (tableName) {
@@ -136,7 +155,7 @@ function getElements(tableName, crudOption) {
                 case "Create":
                     elements = ["Recipe Name", "Tag"]; break;
                 case "Update":
-                    elements = ["Recipe Name", "Tag"]; break;
+                    elements = ["Recipe Name", "New Recipe Name", "Tag", "New Tag"]; break;
                 case "Delete":
                     elements = ["Recipe Name", "Tag"]; break;
             }
@@ -144,6 +163,7 @@ function getElements(tableName, crudOption) {
     }
     return elements;
 }
+
 
 function displayForm(tableName, crudOption) {
     editorForm.innerHTML = "";
@@ -186,105 +206,170 @@ function displayForm(tableName, crudOption) {
             newDiv.appendChild(unitLabel);
         }
         newDiv.appendChild(inputSpan);
-
         editorForm.appendChild(newDiv);
     }
 
-    const mandatory = document.createElement('p');
-    mandatory.id = 'smallText';
+    const message = document.createElement('p');
+    message.id = 'smallText';
     if (crudOption === "Update") {
-        mandatory.innerHTML = "*required fields, leave others blank if no change";
+        message.innerHTML = "*required fields, leave others blank if no change";
     } else {
-        mandatory.innerHTML = "*required fields";
+        message.innerHTML = "*required fields";
     }
-    editorForm.appendChild(mandatory);
+    editorForm.appendChild(message);
 }
 
 
 document.getElementById("submit").addEventListener("click", (e) => {
     e.preventDefault();
-    submitForm();
+    submitForm().then();
 });
-
-
-const response = document.getElementById("response");
-function responseSuccess() {
-    response.innerHTML = "Success"
-    response.style = "font-size: 16px; font-weight: 600; color: var(--green); margin-top: 10px;"
-}
-function responseFail() {
-    response.innerHTML = "Failed: Check your spelling and make sure the entered information exists."
-    response.style = "font-size: 13px; font-weight: 600; color: var(--red); margin-top: 10px;"
-}
-
 
 
 async function submitForm() {
     // TODO: Throw error if null mandatory fields
-    const action = headerChecked.toLowerCase().concat(crudChecked);
-    if (action === "recipesCreate") {
+    if (headerChecked === "Recipes") {
         const name = document.getElementById("Name").value;
-        const inst = document.getElementById("Instructions").value;
-        const prep = document.getElementById("Prep Time").value;
-        const cook = document.getElementById("Cook Time").value;
-        response.hidden = false;
-        try {
-            [name, inst, prep, cook].map(x => replaceBlank(x));
-            await crud.createRecipes(name, inst, prep, cook);
-            responseSuccess();
-            editorForm.reset();
-        } catch (err) {
-            responseFail();
+        if (crudChecked === "Create") {
+            try {
+                if (name === '') { throw new Error('Must fill in name field.')};
+                const vars = [
+                    document.getElementById("Instructions").value,
+                    document.getElementById("Prep Time").value,
+                    document.getElementById("Cook Time").value
+                ].map(x => replaceNull(x));
+
+                await crud.createRecipes(name, vars[0], vars[1], vars[2]);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Update") {
+            try {
+                if (name === '') { throw new Error('Must fill in name field.')};
+                const vars = [
+                    document.getElementById("New Name").value,
+                    document.getElementById("Instructions").value,
+                    document.getElementById("Prep Time").value,
+                    document.getElementById("Cook Time").value
+                ].map(x => replaceNoChange(x));
+
+                await crud.updateRecipes(name, vars[0], vars[1], vars[2], vars[3]);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Delete") {
+            try {
+                if (name === '') { throw new Error('Must fill in name field.')};
+                await crud.deleteRecipes(name);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) { 
+                responseFail(err);
+            }
         }
-        setTimeout(function() { response.hidden = true;}, 3000);
-
-    } else if (action === "recipesUpdate") {
-
-    } else if (action === "recipesDelete") {
-        const rname = document.getElementById("Name").value;
-        response.hidden = false;
-        try {
-            await crud.deleteRecipes(rname);
-            responseSuccess();
-            editorForm.reset();
-        } catch (err) {
-            responseFail();
-        }
-        setTimeout(function() { response.hidden = true;}, 3000);
-    } else if (action === "ingredientsCreate") {
-
-    } else if (action === "ingredientsUpdate") {
-
-    } else if (action === "ingredientsDelete") {
+    } else if (headerChecked === "Ingredients") {
         const rname = document.getElementById("Recipe Name").value;
         const name = document.getElementById("Ingredient Name").value;
-        response.hidden = false;
-        try {
-            
-            await crud.deleteIngredients(rname, name);
-            responseSuccess();
-            editorForm.reset();
-        } catch (err) {
-            responseFail();
+        if (crudChecked === "Create") {
+            try {
+                if (name === '' || rname === '') { throw new Error('Must fill in required fields.')};
+                const vars = [
+                    document.getElementById("Description").value,
+                    document.getElementById("Amount").value,
+                    document.getElementById("Unit").value
+                ].map(x => replaceNull(x));
+
+                await crud.createIngredients(rname, name, vars[0], vars[1], vars[2]);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Update") {
+            try {
+                if (name === '' || rname === '') { throw new Error('Must fill in requried fields.')};
+                const vars = [
+                    document.getElementById("New Recipe Name").value,
+                    document.getElementById("New Ingredient Name").value,
+                    document.getElementById("Description").value,
+                    document.getElementById("Amount").value,
+                    document.getElementById("Unit").value
+                ].map(x => replaceNoChange(x));
+
+                await crud.updateIngredients(rname, vars[0], name, vars[1], vars[2], vars[3], vars[4]);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Delete") {
+            try {
+                if (name === '' || rname === '') { throw new Error('Must fill in requried fields.')};
+                await crud.deleteIngredients(rname, name);
+                responseSuccess();
+                editorForm.reset();
+            } catch (err) {
+                responseFail(err);
+            }
         }
-        setTimeout(function() { response.hidden = true;}, 3000);
+    } else if (headerChecked === "Tags") {
+        const rname = document.getElementById("Recipe Name").value;
+        const tag = document.getElementById("Tag").value;
+        if (crudChecked === "Create") {
+            try {
+                if (rname === '' || tag === '') { throw new Error('Must fill in requried fields.')};
+                await crud.createTags(rname, tag);
+                responseSuccess();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Update") {
+            try {
+                if (rname === '' || tag === '') { throw new Error('Must fill in requried fields.')};
+                const vars = [
+                    document.getElementById("New Recipe Name").value,
+                    document.getElementById("New Tag").value
+                ].map(x => replaceNoChange(x));
 
-    } else if (action === "tagsCreate") {
-
-    } else if (action === "tagsUpdate") {
-
-    } else if (action === "tagsDelete") {
-
+                await crud.updateTags(rname, vars[0], tag, vars[1]);
+                responseSuccess();
+            } catch (err) {
+                responseFail(err);
+            }
+        } else if (crudChecked === "Delete") {
+            try {
+                if (rname === '' || tag === '') { throw new Error('Must fill in requried fields.')};
+                await crud.deleteTags(rname, tag);
+                responseSuccess();
+            } catch (err) {
+                responseFail(err);
+            }
+        }
+    } else {
+        responseFail(new Error("Form Broken"));
     }
-    dt.displayTable();
+
+    document.getElementById(headerChecked.concat("-table")).setAttribute('checked', 'checked');
+    dt.displayTable(headerChecked);
+    
 }
 
+function replaceNoChange(val) {
+    return val === '' || val === null ? 'nochange' : val;
+}
+function replaceNull(val) {
+    return val === '' ? null : val;
+}
+
+
+// main
 async function init() {
     dt.displayHeaders("Recipes");
     await dt.displayTable("Recipes");
 }
 
-function replaceBlank(val) {
-    return val === '' ? null : val;
-}
 init();

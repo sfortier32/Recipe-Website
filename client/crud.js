@@ -1,13 +1,38 @@
-// create
+// recipes
 export async function createRecipes(name, inst, prep, cook) {
-    console.log(name);
     const response = await fetch(
-        `/recipes/create?name=${name}&inst=${inst}&prep=${prep}&cook=${cook}`,
+        `/recipes/create?rname=${name}&inst=${inst}&prep=${prep}&cook=${cook}`,
         { method: 'POST' }
     );
     const data = await response.json();
     return data;
 }
+export async function updateRecipes(oldrname, rname, inst, prep, cook) {
+    try {
+        const response = await fetch(
+            `/recipes/update?oldrname=${oldrname}&rname=${rname}&instructions=${inst}&preptime=${prep}&cooktime=${cook}`,
+            { method: 'PUT' }
+        );
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+export async function deleteRecipes(rname) {
+    try {
+        const response = await fetch(
+            `/recipes/delete?rname=${rname}`,
+            { method: 'DELETE' }
+        );
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// ingredients
 export async function createIngredients(rname, name, desc, amount, unit) {
     const response = await fetch(
         `/ingredients/create?rname=${rname}&name=${name}&desc=${desc}&amount=${amount}&unit=${unit}`,
@@ -16,85 +41,11 @@ export async function createIngredients(rname, name, desc, amount, unit) {
     const data = await response.json();
     return data;
 }
-export async function createTags(rname, name) {
-    const response = await fetch(
-        `/tags/create?rname=${rname}&name=${name}`,
-        { method: 'POST' }
-    );
-    const data = await response.json();
-    return data;
-}
-
-// read
-export async function readRecipes(name) {
+export async function updateIngredients(oldrname, rname, oldname, name, desc, amt, unit) {
     try {
         const response = await fetch(
-            `/recipes/read?name=${name}`,
-            { method: 'GET' }
-        );
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-export async function readIngredients(rname, name) {
-    try {
-        const response = await fetch(
-            `/ingredients/read?rname=${rname}&name=${name}`,
-            { method: 'GET' }
-        );
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-export async function readTags(rname, tag) {
-    try {
-        const response = await fetch(
-            `/tags/read?rname=${rname}&tag=${tag}`,
-            { method: 'GET' }
-        );
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-// update
-export async function updateRecipes(name, newName, inst, prep, cook) {
-    try {
-        const response = await fetch(
-            `/recipes/create?name=${name}&newName=${newName}&inst=${inst}&prep=${prep}&cook=${cook}`,
+            `/ingredients/update?oldrname=${oldrname}&rname=${rname}&oldname=${oldname}&name=${name}&description=${desc}&amount=${amt}&unit=${unit}`,
             { method: 'PUT' }
-        );
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-export async function updateIngredients(rname, newRName, name, newName, desc, amount, unit) {
-    try {
-        const response = await fetch(
-            `/ingredients/create?rname=${rname}&newRName=${newRName}&name=${name}&newName=${newName}&desc=${desc}&amount=${amount}&unit=${unit}`,
-            { method: 'PUT' }
-        );
-        const data = await response.json();
-        return data;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-// delete
-export async function deleteRecipes(name) {
-    try {
-        const response = await fetch(
-            `/recipes/delete?name=${name}`,
-            { method: 'DELETE' }
         );
         const data = await response.json();
         return data;
@@ -113,6 +64,25 @@ export async function deleteIngredients(rname, name) {
     } catch (err) {
         console.log(err);
     }
+}
+
+// delete
+
+export async function createTags(rname, tag) {
+    const response = await fetch(
+        `/tags/create?rname=${rname}&tag=${tag}`,
+        { method: 'POST' }
+    );
+    const data = await response.json();
+    return data;
+}
+export async function updateTags(oldrname, rname, oldtag, tag) {
+    const response = await fetch(
+        `/tags/update?oldrname=${oldrname}&rname=${rname}&oldtag=${oldtag}&tag=${tag}`,
+        { method: 'PUT' }
+    );
+    const data = await response.json();
+    return data;
 }
 export async function deleteTags(rname, tag) {
     try {

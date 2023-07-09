@@ -1,7 +1,7 @@
 import * as crud from "./crud.js";
 import { schema } from "./schema.js";
 
-// main panel listeners
+// main panel
 const tableOptions = document.getElementById("table-options");
 const table = document.getElementById("table");
 const tableNames = ["Recipes", "Ingredients", "Tags"];
@@ -45,6 +45,8 @@ export async function displayTable(tableName) {
     for (let i = 0; i < headerNames.length; ++i) {
 
         const newRow = document.createElement("td");
+        newRow.classList.add("sticky");
+
         const header = document.createElement("th");
 
         header.classList.add("table-font");
@@ -68,8 +70,18 @@ export async function displayTable(tableName) {
 
         for (const [key, value] of Object.entries(res[i])) {
             const newCell = document.createElement("td");
-            newCell.innerText = value;
-            newCell.classList.add("table-font");
+            const newDiv = document.createElement('div');
+            newDiv.setAttribute("style", `
+                min-width: 150px;
+                max-height: 45px;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            `);
+            newDiv.innerText = value;
+            newDiv.classList.add("table-font");
+            newCell.append(newDiv);
             newRow.appendChild(newCell);
         }
 
