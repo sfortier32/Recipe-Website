@@ -10,8 +10,8 @@ const RecipesRoutes =  (app, db) => {
     app.post('/recipes/create', (req, res) => {
         try {
             const { rname, inst, prep, cook } = req.query;
-            const recipe =  db.createRecipes(rname, inst, prep, cook);
-            res.send(JSON.stringify(recipe));
+            const data =  db.createRecipes(rname, inst, prep, cook);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -25,8 +25,8 @@ const RecipesRoutes =  (app, db) => {
                 await noChangeRecipes(oldrname, {preptime}),
                 await noChangeRecipes(oldrname, {cooktime})
             ];
-            const recipe = await db.updateRecipes(oldrname, vars[0], vars[1], vars[2], vars[3]);
-            res.send(JSON.stringify(recipe));
+            const data = await db.updateRecipes(oldrname, vars[0], vars[1], vars[2], vars[3]);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -34,8 +34,8 @@ const RecipesRoutes =  (app, db) => {
     app.delete('/recipes/delete', (req, res) => {
         try {
             const { rname } = req.query;
-            const recipe =  db.deleteRecipes(rname);
-            res.send(JSON.stringify(recipe));
+            const data =  db.deleteRecipes(rname);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -45,8 +45,8 @@ const RecipesRoutes =  (app, db) => {
     app.post('/ingredients/create', (req, res) => {
         try {
             const { rname, name, desc, amount, unit } = req.query;
-            const recipe =  db.createIngredients(rname, name, desc, amount, unit);
-            res.send(JSON.stringify(recipe));
+            const data =  db.createIngredients(rname, name, desc, amount, unit);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -62,8 +62,8 @@ const RecipesRoutes =  (app, db) => {
                 await noChangeIngredients(oldrname, oldname, {unit})
             ];
 
-            const ingredient = await db.udpateIngredients(oldrname, vars[0], oldname, vars[1], vars[2], vars[3], vars[4]);
-            res.send(JSON.stringify(ingredient));
+            const data = await db.udpateIngredients(oldrname, vars[0], oldname, vars[1], vars[2], vars[3], vars[4]);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -71,8 +71,8 @@ const RecipesRoutes =  (app, db) => {
     app.delete('/ingredients/delete', async (req, res) => {
         try {
             const { rname, name } = req.query;
-            const ingredient = await db.deleteIngredients(rname, name);
-            res.send(JSON.stringify(ingredient));
+            const data = await db.deleteIngredients(rname, name);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -82,8 +82,8 @@ const RecipesRoutes =  (app, db) => {
     app.post('/tags/create', async (req, res) => {
         try {
             const { rname, tag } = req.query;
-            const tags = await db.createTags(rname, tag);
-            res.send(JSON.stringify(tags));
+            const data = await db.createTags(rname, tag);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -97,8 +97,8 @@ const RecipesRoutes =  (app, db) => {
             ];
             console.log(vars);
             
-            const tags =  db.updateTags(oldrname, vars[0], oldtag, vars[1]);
-            res.send(JSON.stringify(tags));
+            const data =  db.updateTags(oldrname, vars[0], oldtag, vars[1]);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -106,8 +106,8 @@ const RecipesRoutes =  (app, db) => {
     app.delete('/tags/delete', async (req, res) => {
         try {
             const { rname, tag } = req.query;
-            const tags =  await db.deleteTags(rname, tag);
-            res.send(JSON.stringify(tags));
+            const data =  await db.deleteTags(rname, tag);
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -116,24 +116,24 @@ const RecipesRoutes =  (app, db) => {
     // read all
     app.get('/recipes/all', async (req, res) => {
         try {
-            const recipes = await db.readAllRecipes();
-            res.send(JSON.stringify(recipes));
+            const data = await db.readAllRecipes();
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
     });
     app.get('/ingredients/all', async (req, res) => {
         try {
-            const ingredients = await db.readAllIngredients();
-            res.send(JSON.stringify(ingredients));
+            const data = await db.readAllIngredients();
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
     });
     app.get('/tags/all', async (req, res) => {
         try {
-            const tags = await db.readAllTags();
-            res.send(JSON.stringify(tags));
+            const data = await db.readAllTags();
+            res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);
         }
@@ -142,13 +142,23 @@ const RecipesRoutes =  (app, db) => {
         res.redirect('/recipes/all');
     });
 
+    // for generate feature
+    app.get('/generate', async (req, res) => {
+        try {
+            const { num } = req.query;
+            const data = await db.getRandomRecipes(num);
+            res.status(200).send(JSON.stringify(data));
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    });
+
     // helper functions for update routes
     async function noChangeRecipes (name, varObj) {
         const val = Object.values(varObj)[0];
-        const col = Object.keys(varObj)[0];
         if (val === 'nochange') {
-            const res = await db.getNoChangeRecipes(name, col);
-            return res;
+            const data = await db.getNoChangeRecipes(name, Object.keys(varObj)[0]);
+            return data;
         } else {
             return val;
         }
@@ -156,10 +166,9 @@ const RecipesRoutes =  (app, db) => {
 
     async function noChangeIngredients (rname, name, varObj) {
         const val = Object.values(varObj)[0];
-        const col = Object.keys(varObj)[0];
         if (val === 'nochange') {
-            const res = await db.getNoChangeIngredients(rname, name, col);
-            return res;
+            const data = await db.getNoChangeIngredients(rname, name, Object.keys(varObj)[0]);
+            return data;
         } else {
             return val;
         }
@@ -167,12 +176,11 @@ const RecipesRoutes =  (app, db) => {
 
     async function noChangeTags (rname, tag, varObj) {
         const val = Object.values(varObj)[0];
-        const col = Object.keys(varObj)[0];
         if (val === 'nochange') {
-            const res = await db.getNoChangeTags(rname, tag, col);
-            return res;
+            const res = await db.getNoChangeTags(rname, tag, Object.keys(varObj)[0]);
+            return data;
         } else {
-            return val;
+            return data;
         }
     };
 

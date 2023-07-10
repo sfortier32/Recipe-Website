@@ -66,8 +66,7 @@ export async function deleteIngredients(rname, name) {
     }
 }
 
-// delete
-
+// tags
 export async function createTags(rname, tag) {
     const response = await fetch(
         `/tags/create?rname=${rname}&tag=${tag}`,
@@ -131,6 +130,20 @@ export async function readAllTags() {
         const data = await response.json();
         return data;
     } catch (err) {
+        console.log(err);
+    }
+}
+
+// generate
+export async function generate(num) {
+    try {
+        const response = await fetch(`/generate?num=${num}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log("ERROR Displayed in CRUD");
         console.log(err);
     }
 }

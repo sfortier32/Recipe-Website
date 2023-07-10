@@ -219,6 +219,17 @@ const RecipeQuery = (pool, client) => {
             return res.rows;
         },
 
+        // for generate features
+        getRandomRecipes: async (num) => {
+            const queryText = `
+                SELECT * FROM recipes
+                ORDER BY RANDOM()
+                LIMIT $1;
+            `;
+            const res = await client.query(queryText, [num]);
+            return res.rows;
+        },
+
         // helper functions
         getNoChangeRecipes: async (name, column) => {
             const queryText = `

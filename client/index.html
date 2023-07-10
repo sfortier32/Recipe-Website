@@ -14,9 +14,9 @@
 
                 <h3 class="side-item">Days</h3>
                 <div class="s-item three-col">
-                    <button id="minusDays" class="smallbtn"><span>&#65293;</span></button>
-                    <div id="days" class="square">5</div>
-                    <button id="plusDays" class="smallbtn"><span>&#65291;</span></button>
+                    <button id="minus-days" class="smallbtn"><span>&#65293;</span></button>
+                    <div id="days" class="square" value="5">5</div>
+                    <button id="plus-days" class="smallbtn"><span>&#65291;</span></button>
                 </div>
                 
                 <h3 class="side-item">Tags</h3>
@@ -86,8 +86,12 @@
             </div>
         </div>
 
-        <div class="bottom-container">
-            <h1 id="meals-header">Your Meals</h1>
+        <div id="bottom-container" class="bottom-container">
+            <div id="bottom-header">
+                <h1>Your Meals</h1>
+                <button id="generate-clear">Clear</button>
+            </div>
+            <div id="meals-display"></div>
         </div>
     </body>
 </html>

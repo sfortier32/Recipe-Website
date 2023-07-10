@@ -2,7 +2,7 @@
 :root {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     --lightgreen: #E1EFB4;
-    --green: #44B052;
+    --green: #44b064;
     --background-green: #F2F9F1;
     --lightgray: #d3d3d3;
     --gray: #a7a7a7;
@@ -67,7 +67,11 @@ h4 {
     box-shadow: inset 0px -10px 15px -7px rgba(0,0,0,0.1);
 }
 .bottom-container {
+    display: none;
     height: 300px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 100px;
 }
 
 
@@ -295,6 +299,10 @@ td.sticky {
     position: sticky;
     top: 0;
 }
+tr:hover {
+    background-color: #4fb56d;
+    color: white;
+}
 
 
 /* forms */
@@ -342,4 +350,28 @@ textarea {
     border-radius: 5px;
     font-size: 13px;
     padding: 7px;
+}
+
+
+/* generated meals display */
+#bottom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#meals-display {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 120px);
+    grid-row-gap: 2em;
+    grid-column-gap: 2em;
+}
+.recipe-card {
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    text-align: center;
+    background: var(--background-green);
+    -webkit-box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2);
+            box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2a);
 }
