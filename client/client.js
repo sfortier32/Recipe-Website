@@ -2,15 +2,17 @@ import * as crud from "./crud.js";
 import * as dt from "./datatable.js";
 import * as gen from "./generate.js";
 
+
 // database editor
 const tableNames = ["Recipes", "Ingredients", "Tags"];
 const editorHeaders = document.getElementById("editor-headers");
 const editorActions = document.getElementById("editor-actions");
 const radioHeadersGroup = document.getElementsByName("radio-editor-headers");
 const radioCrudGroup = document.getElementsByName("radio-editor-crud");
+const editor = document.getElementById('editor');
 
-let headerChecked = "Recipes";
-let crudChecked = "Create"; 
+let headerChecked = localStorage.getItem('header-checked') === null ? "Recipes" : localStorage.getItem('header-checked');
+let crudChecked = localStorage.getItem('crud-checked') === null ? "Create" : localStorage.getItem('crud-checked');
 
 const response = document.getElementById("response");
 function responseSuccess() {
@@ -27,18 +29,28 @@ function responseFail(err) {
     setTimeout(function() { response.hidden = true;}, 10000);
 }
 
+document.getElementById('reset').addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    init();
+    location.reload();
+});
+
 
 document.getElementById("editor-btn").addEventListener("click", (e) => { // open editor
     e.preventDefault();
-    document.getElementById("editor").style.display = "block";
-    displayEditorHeaders("Recipes");
-    displayCrudButtons("Create");
+    localStorage.setItem('editor-display', 'block');
+    editor.style.display = 'block';
+
+    displayEditorHeaders(headerChecked);
+    displayCrudButtons(crudChecked);
     verifyEditorSelection();
 });
 
 document.getElementById("close-btn").addEventListener("click", (e) => { // close editor
     e.preventDefault();
-    document.getElementById("editor").style.display = "none";
+    localStorage.setItem('editor-display', 'none');
+    editor.style.display = 'none';
 });
 
 
@@ -111,12 +123,14 @@ function verifyEditorSelection() {
     editorForm.innerText = "";
     for (let i = 0; i < radioHeadersGroup.length; ++i) {
         if (radioHeadersGroup[i].checked) {
+            localStorage.setItem('header-checked', radioHeadersGroup[i].id.split("-")[0]);
             headerChecked = radioHeadersGroup[i].id.split("-")[0];
             break;
         }
     }
     for (let i = 0; i < radioCrudGroup.length; ++i) {
         if (radioCrudGroup[i].checked) {
+            localStorage.setItem('crud-checked', radioCrudGroup[i].id.split("-")[0]);
             crudChecked = radioCrudGroup[i].id.split("-")[0];
             break;
         }
@@ -227,7 +241,6 @@ document.getElementById("submit").addEventListener("click", (e) => {
 
 
 async function submitForm() {
-    // TODO: Throw error if null mandatory fields
     if (headerChecked === "Recipes") {
         const name = document.getElementById("Name").value;
         if (crudChecked === "Create") {
@@ -368,8 +381,31 @@ function replaceNull(val) {
 
 // main
 async function init() {
-    dt.displayHeaders("Recipes");
-    await dt.displayTable("Recipes");
+    if (localStorage.getItem("datatable") !== null) {
+        dt.displayHeaders(localStorage.getItem("datatable"));
+        await dt.displayTable(localStorage.getItem("datatable"));
+    } else {
+        dt.displayHeaders("Recipes");
+        await dt.displayTable("Recipes");
+    }
+    document.getElementById('days').innerText = localStorage.getItem('days') === null ? 5 : localStorage.getItem('days');
+    editor.style.display = localStorage.getItem('editor-display') === null ? 'none' : localStorage.getItem('editor-display');
+    if (editor.style.display === 'block') {
+        displayEditorHeaders(headerChecked);
+        displayCrudButtons(crudChecked);
+        verifyEditorSelection();
+    }
+    document.getElementById('bottom-container').style.display = localStorage.getItem('bottom-container') === null ? 'none' : localStorage.getItem('bottom-container');
+    if (document.getElementById('bottom-container').style.display === 'block') {
+        gen.showMealsDisplay(JSON.parse(localStorage.getItem('meals')));
+    }
+
+    document.getElementsByName('switch').forEach(ele => {
+        const input = ele.querySelector('input');
+        if (localStorage.getItem(input.id) !== null) {
+            input.setAttribute('checked', true);
+        }
+    });
 }
 
 init();

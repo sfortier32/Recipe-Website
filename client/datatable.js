@@ -28,6 +28,7 @@ export async function displayHeaders(checked) {
 
         newInput.addEventListener("click", (e) => {
             e.preventDefault();
+            localStorage.setItem("datatable", tableNames[i]);
             displayHeaders(tableNames[i]);
             displayTable(tableNames[i]);
         });

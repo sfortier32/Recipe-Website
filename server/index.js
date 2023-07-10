@@ -95,7 +95,6 @@ const RecipesRoutes =  (app, db) => {
                 await noChangeTags(oldrname, oldtag, {rname}),
                 await noChangeTags(oldrname, oldtag, {tag}),
             ];
-            console.log(vars);
             
             const data =  db.updateTags(oldrname, vars[0], oldtag, vars[1]);
             res.status(200).send(JSON.stringify(data));
@@ -145,8 +144,16 @@ const RecipesRoutes =  (app, db) => {
     // for generate feature
     app.get('/generate', async (req, res) => {
         try {
-            const { num } = req.query;
-            const data = await db.getRandomRecipes(num);
+            let { num, tags } = req.query;
+            let data = {};
+
+            if (tags.length === 0) {
+                data = await db.getRecipesNoTags(num);
+            } else {
+                tags = tags.split(',');
+                data = await db.getRecipesWithTags(num, tags);
+            }
+
             res.status(200).send(JSON.stringify(data));
         } catch (err) {
             res.status(500).send(err);

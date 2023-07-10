@@ -15,33 +15,32 @@
                 <h3 class="side-item">Days</h3>
                 <div class="s-item three-col">
                     <button id="minus-days" class="smallbtn"><span>&#65293;</span></button>
-                    <div id="days" class="square" value="5">5</div>
+                    <div id="days" class="square"></div>
                     <button id="plus-days" class="smallbtn"><span>&#65291;</span></button>
                 </div>
                 
-                <h3 class="side-item">Tags</h3>
-                <div class="negbr"></div>
+                <h3 class="side-item negbr">Tags</h3><br>
 
                 <div class="two-col">
                     <h4>Cheap</h4>
-                    <label class="switch">
-                        <input type="checkbox" id="cheap-switch">
+                    <label class="switch" name="switch">
+                        <input type="checkbox" id="cheap-switch" name="tag-switch" value="Cheap">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="negbr"></div>
                 <div class="two-col">
                     <h4>Quick</h4>
-                    <label class="switch">
-                        <input type="checkbox" id="quick-switch">
+                    <label class="switch" name="switch">
+                        <input type="checkbox" id="quick-switch" name="tag-switch" value="Quick">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="negbr"></div>
                 <div class="two-col">
                     <h4>Bulk</h4>
-                    <label class="switch">
-                        <input type="checkbox" id="bulk-switch">
+                    <label class="switch" name="switch">
+                        <input type="checkbox" id="bulk-switch" name="tag-switch" value="Bulk">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -55,6 +54,7 @@
             <div class="main">
                 <div id="table-options" class="inline headers"></div>
                 <!-- <button id="info" class="inline right circle-btn" style="margin-right: 75px;">?</button> -->
+                <button id="reset" class="inline right light-green-button" style="margin-right: 75px;">Reset</button>
                 <button id="editor-btn" class="inline right circle-btn">&#8942;</button>
                 <hr>
                 <div class="scrollable-table">
@@ -77,7 +77,7 @@
                 <div id="editor-actions" class="three-col center"></div>
 
                 <div class="center-flex">
-                    <button id="submit">Submit</button>
+                    <button id="submit" class="light-green-button">Submit</button>
                 </div>
 
                 <div class="center-flex">
@@ -89,7 +89,7 @@
         <div id="bottom-container" class="bottom-container">
             <div id="bottom-header">
                 <h1>Your Meals</h1>
-                <button id="generate-clear">Clear</button>
+                <button id="generate-clear" class="light-green-button">Clear</button>
             </div>
             <div id="meals-display"></div>
         </div>

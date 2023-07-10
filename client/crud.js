@@ -135,15 +135,13 @@ export async function readAllTags() {
 }
 
 // generate
-export async function generate(num) {
+export async function generate(num, tags) {
     try {
-        const response = await fetch(`/generate?num=${num}`, {
+        const response = await fetch(`/generate?num=${num}&tags=${tags}`, {
             method: 'GET'
         });
         const data = await response.json();
         return data;
     } catch (err) {
-        console.log("ERROR Displayed in CRUD");
-        console.log(err);
     }
 }

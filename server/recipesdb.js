@@ -136,7 +136,6 @@ const RecipeQuery = (pool, client) => {
         },
         udpateIngredients: async (rname, newRName, name, newName, desc, amount, unit) => {
             const vars = [rname, newRName, name, newName, desc, amount, unit].map(x => x === 'null' ? null : x);
-            console.log(vars);
             const queryText = `
                 UPDATE ingredients
                 SET rid = (SELECT rid FROM recipes WHERE rname = $2),
@@ -220,9 +219,32 @@ const RecipeQuery = (pool, client) => {
         },
 
         // for generate features
-        getRandomRecipes: async (num) => {
+        getRecipesWithTags: async (num, tags) => {
             const queryText = `
-                SELECT * FROM recipes
+                SELECT rname, instructions, preptime, cooktime, tags
+                FROM recipes r, (
+                    SELECT rid, STRING_AGG(tag, ', ') as tags
+                    FROM tags
+                    WHERE tag = ANY ($2)
+                    GROUP BY rid
+                    ) as t
+                WHERE r.rid = t.rid
+                ORDER BY RANDOM()
+                LIMIT $1;
+            `;
+            const res = await client.query(queryText, [num, tags]);
+            return res.rows;
+        },
+
+        getRecipesNoTags: async (num) => {
+            const queryText = `
+                SELECT rname, instructions, preptime, cooktime, tags
+                FROM recipes r, (
+                    SELECT rid, STRING_AGG(tag, ', ') as tags
+                    FROM tags
+                    GROUP BY rid
+                    ) as t
+                WHERE r.rid = t.rid
                 ORDER BY RANDOM()
                 LIMIT $1;
             `;

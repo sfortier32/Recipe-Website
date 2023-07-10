@@ -162,19 +162,20 @@ button:active {
     display: flex;
     justify-content: center;
 }
-#submit {
+.light-green-button {
     border: none;
     background: none;
     box-shadow: none;
     font-size: 16px;
     font-weight: 600;
-    padding-left: 13px;
-    padding-right: 13px;
-    padding-top: 6px;
-    padding-bottom: 7px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: var(--green);
     background-color: var(--lightgreen);
     border-radius: 7px;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.25);
 }
 
 
@@ -300,8 +301,8 @@ td.sticky {
     top: 0;
 }
 tr:hover {
-    background-color: #4fb56d;
     color: white;
+    background-color: #4fb56d;
 }
 
 
@@ -363,15 +364,31 @@ textarea {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 120px);
+    grid-template-rows: repeat(2, 130px);
     grid-row-gap: 2em;
     grid-column-gap: 2em;
 }
 .recipe-card {
-    /* border: 1px solid black; */
     border-radius: 10px;
     text-align: center;
     background: var(--background-green);
     -webkit-box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2);
             box-shadow: 0px 0px 10px rgb(0, 0, 0, 0.2a);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+div.header {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--green);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+div.field {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--darkgray);
 }
