@@ -1,7 +1,7 @@
 # Recipes-Website
+
 Contibutors: Sophia Fortier
 
-COMPSCI 326: Web Programming
-Summer Session 1 2023
-University of Massachusetts Amherst
+University of Massachusetts Amherst, COMPSCI 326: Web Programming
 
+July 2023
