@@ -7,7 +7,7 @@ University of Massachusetts Amherst, COMPSCI 326: Web Programming
 *From July 2023 Project Specifications:*
 
 ### Objective
-The objective of this project is to design and develop a single page web application Links to an external site. with a Node.js backend, using HTML, CSS, and JavaScript. The application should allow users to interact with it, perform CRUD operations, store data using local storage, and store data in the back-end. The back-end should be implemented in Node.js and communicate with the front-end using fetch. The project must utilize a database (MongoDB or PostgreSQL) and include routes for all CRUD operations. You are not allowed to use PouchDB for the database.
+The objective of this project is to design and develop a single page web application that links to an external site with a Node.js backend, using HTML, CSS, and JavaScript. The application should allow users to interact with it, perform CRUD operations, store data using local storage, and store data in the back-end. The back-end should be implemented in Node.js and communicate with the front-end using fetch. The project must utilize a database (MongoDB or PostgreSQL) and include routes for all CRUD operations. You are not allowed to use PouchDB for the database.
 
 ### Requirements
 1. Front-End Development:
