@@ -48,6 +48,10 @@ The objective of this project is to design and develop a single page web applica
    - Validate user input and handle validation errors gracefully.
    - Display appropriate error messages to the user.
 
+### My Contributions
+   - Developed a dynamic single-page application in which users could generate upcoming meals or perform CRUD operations on one of three database tables
+   - Designed the schema for and fully integrated an external PostgreSQL database which could be connected to via routing and fetch requests (Express.js)
+   - Implemented a Node.js backend, with routing, error handling, and local storage
 
-  ### Grade
-  51/51
+### Grade
+51/51
